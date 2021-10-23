@@ -1,0 +1,30 @@
+
+//!rootReducer dùng để quản lí Reducer, rootSaga đc sử dụng để quản lí action, dụa vào action.type
+
+//Nếu là action thường thì viết ở file TodoListAction.js
+//* nếu là action return về 1 function thì viết ở rootSaga.js, vì file của saga thì chỉ nên quản lí những action trả về function
+
+
+
+import {fork, take, takeEvery,delay, takeLatest } from 'redux-saga/effects';
+
+//mỗi hàm generator function là 1 action ( trừ generator function rootSaga)
+function * getTaskListApi(action) {
+    yield delay(3000);    // trả về đủ tất cả action đc dispatch
+    console.log("ACTION getAPI", action);
+
+}
+
+
+
+
+
+
+
+//rootSaga giống như rootReducer, nhưng khác là tập hợp chứa action
+export function * rootSaga() {
+    //*yield takeEvery('getTaskListApiAction', getTaskListApi)
+
+    yield takeLatest('getTaskListApiAction', getTaskListApi); //?chỉ thực hiện action đc dispatch lần cuối cùng
+
+}

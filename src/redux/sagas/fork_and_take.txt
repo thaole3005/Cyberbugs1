@@ -1,0 +1,51 @@
+
+//!rootReducer dùng để quản lí Reducer, rootSaga đc sử dụng để quản lí action, dụa vào action.type
+
+//Nếu là action thường thì viết ở file TodoListAction.js
+//* nếu là action return về 1 function thì viết ở rootSaga.js, vì file của saga thì chỉ nên quản lí những action trả về function
+
+
+
+import {fork, take} from 'redux-saga/effects';
+
+//mỗi hàm generator function là 1 action ( trừ generator function rootSaga)
+function * getTaskListApi() {
+console.log("START hàm getAPI")
+
+    /*
+    yield take('getTaskListApiAction');     //?--> theo dõi action nào dispatch(action nào mà đúng type đc truyền vào hàm take()) thì mới thực hiện các công việc phia dưới
+    // nếu k có yield take để cản lại thì mặc định những dòng code trong action getTaskListApi sẽ luôn đc chạy 
+    //*Nhược điểm: chỉ lắng nghe lần đầu, muốn thực thi lần tiêp theo thig phải yield tiếp
+
+    console.log("vào hàm getTaskListApi1");
+    
+    yield take('getTaskListApiAction');     //?--> theo dõi action nào dispatch(action nào mà đúng type đc truyền vào hàm take()) thì mới thực hiện các công việc phia dưới
+    console.log("vào hàm getTaskListApi2");
+
+    yield take('getTaskListApiAction');     //?--> theo dõi action nào dispatch(action nào mà đúng type đc truyền vào hàm take()) thì mới thực hiện các công việc phia dưới
+    console.log("vào hàm getTaskListApi3");
+
+    */
+
+    //! ==> cách khắc phục: dùng vòng lặp vô tận
+
+    while(true) {
+        yield take('getTaskListApiAction');
+        console.log("vào hàm getTaskListApi VÔ TẬN")
+    }
+
+}
+
+
+
+
+
+
+
+//rootSaga giống như rootReducer, nhưng khác là tập hợp chứa action
+export function * rootSaga() {
+    console.log("rootSaga");
+    //? hàm forrk: ban đầu chạy lên thì chạy tất cả các action của Saga, nhờ có hàm task đẻ chặn lại
+    //!hàm fork chạy theo cơ chế non-blocking, có nghĩa là nếu có nhiều fork thì sẽ chạy đồng thời 1 lúc chứ k phải chạy tuần tự
+    yield fork(getTaskListApi);
+}

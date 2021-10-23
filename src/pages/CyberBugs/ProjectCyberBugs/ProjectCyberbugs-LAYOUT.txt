@@ -1,0 +1,210 @@
+import React, { useState } from "react";
+import { Table, Button, Space } from "antd";
+import parse from 'html-react-parser';
+
+
+const data = [
+    {
+      "members": [],
+      "creator": {
+        "id": 479,
+        "name": "thong"
+      },
+      "id": 1310,
+      "projectName": "newProject New3",
+      "description": "<p><span style=\"background-color: #e03e2d;\"><strong>newProject da</strong></span></p>",
+      "categoryId": 2,
+      "categoryName": "Dự án phần mềm",
+      "alias": "newproject-new3",
+      "deleted": false
+    },
+    {
+      "members": [
+        {
+          "userId": 318,
+          "name": "hihic",
+          "avatar": "https://ui-avatars.com/api/?name=hihic"
+        }
+      ],
+      "creator": {
+        "id": 310,
+        "name": "Loi"
+      },
+      "id": 1311,
+      "projectName": "rawwwwwwwww",
+      "description": "<p>a</p>",
+      "categoryId": 2,
+      "categoryName": "Dự án phần mềm",
+      "alias": "rawwwwwwwww",
+      "deleted": false
+    },
+    {
+      "members": [],
+      "creator": {
+        "id": 444,
+        "name": "thong"
+      },
+      "id": 1314,
+      "projectName": "project new",
+      "description": "<p>Project</p>",
+      "categoryId": 2,
+      "categoryName": "Dự án phần mềm",
+      "alias": "project-new",
+      "deleted": false
+    },
+    {
+      "members": [],
+      "creator": {
+        "id": 379,
+        "name": "string123"
+      },
+      "id": 1315,
+      "projectName": "project tesst",
+      "description": "<p><strong>project tesst</strong></p>",
+      "categoryId": 2,
+      "categoryName": "Dự án phần mềm",
+      "alias": "project-tesst",
+      "deleted": false
+    },
+    {
+      "members": [],
+      "creator": {
+        "id": 456,
+        "name": "Tấn Lộc"
+      },
+      "id": 1316,
+      "projectName": "pro2000",
+      "description": "string",
+      "categoryId": 1,
+      "categoryName": "Dự án web",
+      "alias": "pro2000",
+      "deleted": false
+    },
+    {
+      "members": [
+        {
+          "userId": 290,
+          "name": "khải",
+          "avatar": "https://ui-avatars.com/api/?name=khải"
+        }
+      ],
+      "creator": {
+        "id": 401,
+        "name": "hau"
+      },
+      "id": 1318,
+      "projectName": "aa",
+      "description": "<p>fafafafajdkajdkaajdkjakdjakjdkja</p>",
+      "categoryId": 2,
+      "categoryName": "Dự án phần mềm",
+      "alias": "aa",
+      "deleted": false
+    },
+    {
+        "members": [],
+        "creator": {
+          "id": 489,
+          "name": "hanhminh"
+        },
+        "id": 1385,
+        "projectName": "todoList project",
+        "description": "<p>This is todoList project</p>",
+        "categoryId": 2,
+        "categoryName": "Dự án phần mềm",
+        "alias": "todolist-project",
+        "deleted": false
+      }
+];
+
+export default function ProjectManagement(props) {
+
+  const [state, setState] = useState({
+    filteredInfo: null,
+    sortedInfo: null,
+  });
+
+
+
+
+
+  const handleChange = (pagination, filters, sorter) => {
+    console.log("Various parameters", pagination, filters, sorter);
+    setState({
+      filteredInfo: filters,
+      sortedInfo: sorter,
+    });
+  };
+
+
+
+
+
+  const clearFilters = () => {
+    setState({ filteredInfo: null });
+  };
+
+
+
+
+
+
+  const clearAll = () => {
+    setState({
+      filteredInfo: null,
+      sortedInfo: null,
+    });
+  };
+
+
+
+  const setAgeSort = () => {
+    setState({
+      sortedInfo: {
+        order: 'descend',
+        columnKey: 'age',
+      },
+    });
+  };
+
+
+  let { sortedInfo, filteredInfo } = state;
+
+  sortedInfo = sortedInfo || {};
+  filteredInfo = filteredInfo || {};
+  
+  const columns = [
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+ 
+    },
+    {
+      title: 'projectName',
+      dataIndex: 'projectName',
+      key: 'projectName',
+   
+    },
+    {
+      title: 'description',
+      dataIndex: 'description',
+      key: 'description',
+  
+    },
+  ];
+
+
+
+  return (
+  
+    <div className="container mt-5">
+        <h2>Project Management</h2>
+        <Space style={{ marginBottom: 16 }}>
+          <Button onClick={setAgeSort}>Sort age</Button>
+          <Button onClick={clearFilters}>Clear filters</Button>
+          <Button onClick={clearAll}>Clear filters and sorters</Button>
+        </Space>
+        <Table columns={columns} dataSource={data} onChange={handleChange} />
+    </div>
+  );
+}
